@@ -1,0 +1,26 @@
+﻿@model MVC_DLL.Models.TestingFile
+@{
+    ViewBag.Title = "TestIndex";
+}
+
+<h2>TestIndex</h2>
+@*<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+@using (Html.BeginForm("SaveTest", "Home", FormMethod.Post))
+{ 
+    @Html.EditorFor(x=>x.FName)
+    @Html.ValidationMessageFor(x => x.FName)
+<br />
+    @Html.CheckBoxFor(x => x.Married)
+    @Html.ValidationMessageFor(x => x.Married)
+<br />
+    @Html.TextBoxFor(x => x.WifeName)
+    @Html.ValidationMessageFor(x => x.WifeName)
+<br />
+    @Html.TextBoxFor(x => x.Wife_dOB)
+    @Html.ValidationMessageFor(x => x.Wife_dOB)
+<br />
+
+        <input type="submit" value="Create" class="btn btn-default" />
+}

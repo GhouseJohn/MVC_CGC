@@ -1,0 +1,41 @@
+﻿@*@model IEnumerable<MVC_DLL.Models.MasterTable>*@
+
+@model MVC_DLL.VIewModel.EditViewModel
+@using MVC_DLL.Models
+
+
+@{
+    ViewBag.Title = "EditMasterData";
+}
+
+<h2>EditMasterData</h2>
+  @using (Html.BeginForm("UpdatedMaster", "Home", FormMethod.Post))
+  { 
+
+foreach (MasterTable item in Model._ListMasterTable)
+{
+    <b>Name</b>
+    @Html.TextBoxFor(x => x._ListMasterTable, new { Value = item.Master_Name });<br />
+    <b>Email</b>
+    @Html.TextBoxFor(x => x._ListMasterTable, new { Value = item.Master_Email });<br />
+
+        @Html.DropDownListFor(model => model._MasterTable.ContryId,
+        new SelectList(Model._EditCountryData, "Cnt_Id", "Cnt_Name", item.ContryId), "Select Country...",
+        new { @id = "ddlContry" })<br />
+
+        @Html.DropDownListFor(model => model._MasterTable.StateId,
+        new SelectList(Model._EditStateData, "Sts_Id", "Sts_Name", item.StateId), "Select Country...",
+        new { @id = "ddlSate" })<br />
+
+    @Html.DropDownListFor(model => model._MasterTable.CityId,
+           new SelectList(Model._EditCityData, "City_Id", "City_Name", item.StateId), "Select Country...",
+           new { @id = "ddlCity" })<br />
+
+
+
+       <input type="submit" value="Update" class="btn btn-default"/>
+}
+}
+
+
+

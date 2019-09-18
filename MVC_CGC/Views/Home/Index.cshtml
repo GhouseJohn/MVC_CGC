@@ -1,0 +1,203 @@
+﻿
+
+@model MVC_DLL.VIewModel.HybridClass
+ @using MVC_DLL.Models
+@{HtmlHelper.UnobtrusiveJavaScriptEnabled = true;}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+
+
+
+
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+
+@using (Ajax.BeginForm("InsertMasterData", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+{
+    
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>MasterTable</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._MasterTable.Master_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._MasterTable.Master_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._MasterTable.Master_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._MasterTable.Master_Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._MasterTable.Master_Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._MasterTable.Master_Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._MasterTable.PassWord, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._MasterTable.PassWord, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._MasterTable.PassWord, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._MasterTable.ImageId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model._MasterTable.ImageId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model._MasterTable.ImageId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model._MasterTable.ContryId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model._MasterTable.ContryId, new SelectList(Model.GetCountryData, "Cnt_Id", "Cnt_Name"), "Select Country...", new { @id = "ddlContry" })
+                @Html.ValidationMessageFor(cntval => cntval._MasterTable.ContryId) <br />
+              </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._MasterTable.StateId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model._MasterTable.StateId, new List<SelectListItem>(), "Select State...", new { @id = "ddlDistrict" })
+                @Html.ValidationMessageFor(cmodel => cmodel._MasterTable.StateId) <br />
+            </div>
+        </div>
+
+        <div class="form-group"> 
+            @Html.LabelFor(model => model._MasterTable.CityId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model._MasterTable.CityId, new List<SelectListItem>(), "Select City...", new { @id = "ddlCity" })
+                @Html.ValidationMessageFor(cmodel => cmodel._MasterTable.CityId) <br />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="submitButton" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Token</th>
+            <th>Email</th>
+            <th>Pasword</th>
+            <th>Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+   @foreach (MasterTable _objMaster in Model.GetMasterData)
+   {
+    <tr>
+        <td>@_objMaster.Id</td>
+        <td>@_objMaster.Master_Token</td>
+        <td>@_objMaster.Master_Email</td>
+        <td>@_objMaster.PassWord</td>
+        <td>@_objMaster.Master_Name</td>
+        <td>
+         @Ajax.ActionLink("CheckOut", "EditMasterDatadetails", new { id = _objMaster.Id }, new AjaxOptions() {
+          UpdateTargetId = "divest",
+           HttpMethod = "GET",
+           OnSuccess= "OpenEditDialog()"
+
+       })                  
+        </td>
+    </tr>
+   }
+
+    </tbody>
+</table>
+
+<div class="container" id="MenuContainer">
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                   <div id="divest"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function OpenEditDialog() {
+            $("#myModal").modal('show');
+        }
+      
+
+        $(document).ready(function () {
+            $("#ddlContry").change(function () {
+                debugger;
+                $("#ddlDistrict").empty();
+                $("#ddlCity").empty();
+                var id = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:53433/Home/Getstatelist/' + id,
+                    dataType: 'json',
+                    //  data: { countryid: $("#ContryId").val() },
+                    success: function (data) {
+                        console.log(data);
+                        $.each(data, function (index, item) {
+                            $('#ddlDistrict').append($('<option/>', { value: item.Value, text: item.Text }))
+                        })
+                    }, error: function (xhr) {
+                        alert('failur....' + xhr);
+                    }
+                });
+                return false;
+            })
+
+
+
+
+            $("#ddlDistrict").change(function () {
+                $("#ddlCity").empty();
+                var id = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:53433/Home/CityList/' + id,
+                    dataType: 'json',
+                    //  data: { countryid: $("#ContryId").val() },
+                    success: function (data) {
+                        console.log(data);
+                        $.each(data, function (index, item) {
+                            $('#ddlCity').append($('<option/>', { value: item.City_Id, text: item.City_Name }))
+                        })
+                    }, error: function (xhr) {
+                        alert('failur....' + xhr);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
+
