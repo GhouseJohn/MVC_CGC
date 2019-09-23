@@ -8,7 +8,7 @@
 
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
 
-<h2>EditMasterData</h2>
+<h2>EditMasterData123</h2>
 @*@using (Html.BeginForm("UpdatedMaster", "Home", FormMethod.Post))*@
 @using (Ajax.BeginForm("UpdatedMaster", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
 {
@@ -18,9 +18,12 @@
         @Html.HiddenFor(x=>x._MasterTable.Id,new { Value = item.Id})
 
         <b>Namesss</b>
-        @*@Html.TextBoxFor(x => x._ListMasterTable, new { Value = item.Master_Name });<br />*@
-        @Html.TextBoxFor(x=>x._MasterTable.Master_Name, new { Value = item.Master_Name });
-        @Html.ValidationMessageFor(model => model._MasterTable.Master_Name,"", new { @class = "text-danger" })
+        @Html.TextBoxFor(x => x._ListMasterTable, new { Value = item.Master_Name });<br />
+         //  @Html.EditorFor(x=>x._MasterTable.Master_Name, new {htmlAttribute=new { @class = "form-control" } , Value = item.Master_Name});
+        @*@Html.EditorFor(x => x._MasterTable.Master_Name, new { htmlAttributes = new { @class = "form-control" } , Value = item.Master_Name })*@
+
+
+          @Html.ValidationMessageFor(model => model._MasterTable.Master_Name,"", new { @class = "text-danger" })
 
         <br />
         <br />
@@ -41,7 +44,7 @@
 
 
 
-        <input type="submit" value="Update" class="btn btn-default"/>
+        <input type="submit" value="Update" class="btn btn-primary"/>
     }
 }
 <script type="text/javascript">

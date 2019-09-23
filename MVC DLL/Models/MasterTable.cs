@@ -29,5 +29,7 @@ namespace MVC_DLL.Models
         [Required(ErrorMessage = "Please Enter Country Name")]
         public List<SelectListItem> statelist { get; set; }
 
+        public HttpPostedFile HelloFile { get; set; }
+
     }
 }

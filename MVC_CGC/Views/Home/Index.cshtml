@@ -16,9 +16,10 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
 
-@using (Ajax.BeginForm("InsertMasterData", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+@*@using (Ajax.BeginForm("InsertMasterData", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))*@
+@using(Html.BeginForm("InsertMasterData", "Home",FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    
+
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -50,13 +51,26 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model._MasterTable.ImageId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model._MasterTable.ImageId, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model._MasterTable.ImageId, "", new { @class = "text-danger" })
             </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model._MasterTable.ImageId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ProjectInformation, new { type = "file", @class = "input-file" })
+                @Html.ValidationMessageFor(model => model._MasterTable.ImageId, "", new { @class = "text-danger" })
+            </div>
         </div>
+
+  
+
+
+
         <div class="form-group">
             @Html.LabelFor(model => model._MasterTable.ContryId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -159,15 +173,22 @@
                 $("#ddlDistrict").empty();
                 $("#ddlCity").empty();
                 var id = $(this).val();
+                var _ddlstate = $("#ddlDistrict")        
+                _ddlstate.append($("<option></option>").val('').html('Please Select Country'));
                 $.ajax({
                     type: 'GET',
                     url: 'http://localhost:53433/Home/Getstatelist/' + id,
                     dataType: 'json',
                     //  data: { countryid: $("#ContryId").val() },
+
                     success: function (data) {
                         console.log(data);
                         $.each(data, function (index, item) {
-                            $('#ddlDistrict').append($('<option/>', { value: item.Value, text: item.Text }))
+                            $('#ddlDistrict').append($('<option/>', {
+                                value: item.Value,
+                                text: item.Text
+
+                            }))
                         })
                     }, error: function (xhr) {
                         alert('failur....' + xhr);
@@ -182,6 +203,8 @@
             $("#ddlDistrict").change(function () {
                 $("#ddlCity").empty();
                 var id = $(this).val();
+                var _ddlcity = $("#ddlCity")
+                _ddlcity.append($("<option></option>").val('').html('Please Select City'));
                 $.ajax({
                     type: 'GET',
                     url: 'http://localhost:53433/Home/CityList/' + id,

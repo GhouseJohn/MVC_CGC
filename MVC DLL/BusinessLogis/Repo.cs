@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
 using MVC_DLL.AES256Encryption;
+using System.Data.Entity;
 
 namespace MVC_DLL.BusinessLogis
 {

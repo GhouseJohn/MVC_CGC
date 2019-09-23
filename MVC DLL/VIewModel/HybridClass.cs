@@ -11,6 +11,7 @@ namespace MVC_DLL.VIewModel
         public MasterTable _MasterTable { get; set; }
         public List<MasterTable> GetMasterData { get; set; }
         public List<Country> GetCountryData { get; set; }
-      //      public List<SelectListItem> SelectListItem { get; set; }
+        public HttpPostedFileBase ProjectInformation { get; set; }
+     // public List<SelectListItem> SelectListItem { get; set; }
     }
 }

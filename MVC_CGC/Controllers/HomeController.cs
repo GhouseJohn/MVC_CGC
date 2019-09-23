@@ -20,9 +20,12 @@ namespace MVC_CGC.Controllers
         {
             _ObjRepo = new Repo();
         }
+
+
+
         [HttpGet]
         [Route("Index")]
-        public ActionResult Index()
+        public ActionResult Index(HybridClass _hybrid)
         {
             HybridClass _objHybrid = new HybridClass();
             var _MasterData = _ObjRepo.GetMasterTableData();
@@ -78,20 +81,29 @@ namespace MVC_CGC.Controllers
         [HttpPost]
         [Route("InsertMasterData")]
         //  public ActionResult InsertMasterData(MasterTable _Master)
-        public ActionResult InsertMasterData()
+        public ActionResult InsertMasterData(HybridClass _obj)
 
         {
-            MasterTable _objmaster = new MasterTable();
-            _objmaster.Master_Email = Request.Form["_MasterTable.Master_Email"];
-            _objmaster.PassWord = Request.Form["_MasterTable.PassWord"];
-            _objmaster.Master_Name = Request.Form["_MasterTable.Master_Name"];
-            _objmaster.ImageId = Convert.ToInt16(Request.Form["_MasterTable.ImageId"]);
-            _objmaster.ContryId = Convert.ToInt16(Request.Form["_MasterTable.ContryId"]);
-            _objmaster.StateId = Convert.ToInt16(Request.Form["_MasterTable.StateId"]);
-            _objmaster.CityId = Convert.ToInt16(Request.Form["_MasterTable.CityId"]);
+
+            string _FolderPath= "~/FileFolder/UserRegFiles";
+           string _fileName= _obj.ProjectInformation.FileName;
+            bool exists = System.IO.Directory.Exists(Server.MapPath(_FolderPath));
+            if (!exists)
+                System.IO.Directory.CreateDirectory(Server.MapPath(_FolderPath));
+            var path =System.IO.Path.Combine(Server.MapPath(_FolderPath), _fileName);
+               _obj.ProjectInformation.SaveAs(path);
+
+            //MasterTable _objmaster = new MasterTable();
+            //_objmaster.Master_Email = Request.Form["_MasterTable.Master_Email"];
+            //_objmaster.PassWord = Request.Form["_MasterTable.PassWord"];
+            //_objmaster.Master_Name = Request.Form["_MasterTable.Master_Name"];
+            //_objmaster.ImageId = Convert.ToInt16(Request.Form["_MasterTable.ImageId"]);
+            //_objmaster.ContryId = Convert.ToInt16(Request.Form["_MasterTable.ContryId"]);
+            //_objmaster.StateId = Convert.ToInt16(Request.Form["_MasterTable.StateId"]);
+            //_objmaster.CityId = Convert.ToInt16(Request.Form["_MasterTable.CityId"]);
             if (ModelState.IsValid)
             {
-                int res = _ObjRepo.InsertData(_objmaster);
+              //  int res = _ObjRepo.InsertData(_objmaster);
                 return RedirectToAction("Index");
             }
             return View("Index");
