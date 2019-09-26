@@ -289,6 +289,7 @@ namespace MVC_DLL.BusinessLogis
                 var _key = EncryptionLibrary.EncryptText(_master.PassWord);
                 SqlCommand _commd = new SqlCommand("Usp_InsertMaster", con);
                 _commd.CommandType = CommandType.StoredProcedure;
+                _commd.Parameters.AddWithValue("@UserID", 1);
                 _commd.Parameters.AddWithValue("@Master_Name", _master.Master_Name);
                 _commd.Parameters.AddWithValue("@Master_Email", _master.Master_Email);
                 _commd.Parameters.AddWithValue("@PassWord", _key);
@@ -357,5 +358,7 @@ namespace MVC_DLL.BusinessLogis
         }
 
     }
+
+  
 }
 

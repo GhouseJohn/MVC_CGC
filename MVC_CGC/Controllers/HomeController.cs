@@ -85,25 +85,29 @@ namespace MVC_CGC.Controllers
 
         {
 
-            string _FolderPath= "~/FileFolder/UserRegFiles";
-           string _fileName= _obj.ProjectInformation.FileName;
-            bool exists = System.IO.Directory.Exists(Server.MapPath(_FolderPath));
-            if (!exists)
-                System.IO.Directory.CreateDirectory(Server.MapPath(_FolderPath));
-            var path =System.IO.Path.Combine(Server.MapPath(_FolderPath), _fileName);
-               _obj.ProjectInformation.SaveAs(path);
+            //string _FolderPath = "~/FileFolder/UserRegFiles";
+            //string _fileName = _obj.ProjectInformation.FileName;
+            //string _fileExt = System.IO.Path.GetExtension(_fileName);
+            //bool exists = System.IO.Directory.Exists(Server.MapPath(_FolderPath));
+            //if (!exists)
+            //    System.IO.Directory.CreateDirectory(Server.MapPath(_FolderPath));
+            // string _folderPath= DateTime.Now.ToString("yyyyMMddHHmmssfff") + "_" + Guid.NewGuid().ToString("N")+ _fileExt;
+            //var path = System.IO.Path.Combine(Server.MapPath(_FolderPath), _folderPath);
 
-            //MasterTable _objmaster = new MasterTable();
-            //_objmaster.Master_Email = Request.Form["_MasterTable.Master_Email"];
-            //_objmaster.PassWord = Request.Form["_MasterTable.PassWord"];
-            //_objmaster.Master_Name = Request.Form["_MasterTable.Master_Name"];
-            //_objmaster.ImageId = Convert.ToInt16(Request.Form["_MasterTable.ImageId"]);
-            //_objmaster.ContryId = Convert.ToInt16(Request.Form["_MasterTable.ContryId"]);
-            //_objmaster.StateId = Convert.ToInt16(Request.Form["_MasterTable.StateId"]);
-            //_objmaster.CityId = Convert.ToInt16(Request.Form["_MasterTable.CityId"]);
+          //  _obj.ProjectInformation.SaveAs(path);
+            MasterTable _objmaster = new MasterTable();
+            _objmaster.Master_Email = Request.Form["_MasterTable.Master_Email"];
+            _objmaster.PassWord = Request.Form["_MasterTable.PassWord"];
+            _objmaster.Master_Name = Request.Form["_MasterTable.Master_Name"];
+            //  _objmaster.ImageId = Convert.ToInt16(Request.Form["_MasterTable.ImageId"]);
+            _objmaster.ImageId = 1;
+
+            _objmaster.ContryId = Convert.ToInt16(Request.Form["_MasterTable.ContryId"]);
+            _objmaster.StateId = Convert.ToInt16(Request.Form["_MasterTable.StateId"]);
+            _objmaster.CityId = Convert.ToInt16(Request.Form["_MasterTable.CityId"]);
             if (ModelState.IsValid)
             {
-              //  int res = _ObjRepo.InsertData(_objmaster);
+                int res = _ObjRepo.InsertData(_objmaster);
                 return RedirectToAction("Index");
             }
             return View("Index");

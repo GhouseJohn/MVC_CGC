@@ -26,7 +26,7 @@ namespace MVC_DLL.Models
         public int StateId { get; set; }
         [Required(ErrorMessage = "Please Enter Your CityId")]
         public int CityId { get; set; }
-        [Required(ErrorMessage = "Please Enter Country Name")]
+      //  [Required(ErrorMessage = "Please Enter Country Name")]
         public List<SelectListItem> statelist { get; set; }
 
         public HttpPostedFile HelloFile { get; set; }

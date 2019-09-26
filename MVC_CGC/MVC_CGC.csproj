@@ -161,6 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="FileFolder\UserRegFiles\" />
+    <Folder Include="Views\mahesh\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -8,86 +8,85 @@
 
 <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
 
-<h2>EditMasterData123</h2>
+
+
 @*@using (Html.BeginForm("UpdatedMaster", "Home", FormMethod.Post))*@
+
 @using (Ajax.BeginForm("UpdatedMaster", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
 {
 
     foreach (MasterTable item in Model._ListMasterTable)
     {
+
         @Html.HiddenFor(x=>x._MasterTable.Id,new { Value = item.Id})
 
-        <b>Namesss</b>
-        @Html.TextBoxFor(x => x._ListMasterTable, new { Value = item.Master_Name });<br />
-         //  @Html.EditorFor(x=>x._MasterTable.Master_Name, new {htmlAttribute=new { @class = "form-control" } , Value = item.Master_Name});
-        @*@Html.EditorFor(x => x._MasterTable.Master_Name, new { htmlAttributes = new { @class = "form-control" } , Value = item.Master_Name })*@
+                    <label>Name</label>
+                    @Html.TextBoxFor(model => model._MasterTable.Master_Name, new { Value = item.Master_Name, @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model._MasterTable.Master_Name, "", new { @class = "text-danger" })
+            <br />
+                    <label>Email</label>
+                @Html.TextBoxFor(x => x._ListMasterTable, new { Value = item.Master_Email, @class = "form-control" })
 
 
-          @Html.ValidationMessageFor(model => model._MasterTable.Master_Name,"", new { @class = "text-danger" })
-
-        <br />
-        <br />
-        <b>Email</b>
-        @Html.TextBoxFor(x => x._ListMasterTable, new { Value = item.Master_Email });<br />
-
-        @Html.DropDownListFor(model => model._MasterTable.ContryId,
+            @Html.DropDownListFor(model => model._MasterTable.ContryId,
         new SelectList(Model._EditCountryData, "Cnt_Id", "Cnt_Name", item.ContryId), "Select Country...",
         new { @id = "ddlcountrydrop" })<br />
 
-        @Html.DropDownListFor(model => model._MasterTable.StateId,
+            @Html.DropDownListFor(model => model._MasterTable.StateId,
         new SelectList(Model._EditStateData, "Sts_Id", "Sts_Name", item.StateId), "Select State...",
         new { @id = "ddlSatedrop" })<br />
 
-        @Html.DropDownListFor(model => model._MasterTable.CityId,
+            @Html.DropDownListFor(model => model._MasterTable.CityId,
            new SelectList(Model._EditCityData, "City_Id", "City_Name", item.CityId), "Select Country...",
-           new { @id = "ddlCitydrop" })<br />
+           new { @id = "ddlCitydrop" })
 
 
 
-        <input type="submit" value="Update" class="btn btn-primary"/>
-    }
-}
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#ddlcountrydrop").change(function () {
-            $("#ddlSatedrop").empty();
-            $("#ddlCitydrop").empty();
-            var id = $(this).val();
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:53433/Home/Getstatelist/' + id,
-                dataType: 'json',
-                success: function (data) {
-                    console.log(data);
-                    $.each(data, function (index, item) {
-                        $('#ddlSatedrop').append($('<option/>', { value: item.Value, text: item.Text }))
+            <input type="submit" value="Update" class="btn btn-primary" />
+            }
+            }
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#ddlcountrydrop").change(function () {
+                        $("#ddlSatedrop").empty();
+                        $("#ddlCitydrop").empty();
+                        var id = $(this).val();
+                        $.ajax({
+                            type: 'GET',
+                            url: 'http://localhost:53433/Home/Getstatelist/' + id,
+                            dataType: 'json',
+                            success: function (data) {
+                                console.log(data);
+                                $.each(data, function (index, item) {
+                                    $('#ddlSatedrop').append($('<option/>', { value: item.Value, text: item.Text }))
+                                })
+                            }, error: function (xhr) {
+                                alert('failur....' + xhr);
+                            }
+                        });
+                        return false;
+
                     })
-                }, error: function (xhr) {
-                    alert('failur....' + xhr);
-                }
-            });
-            return false;
-
-        })
-        $("#ddlSatedrop").change(function () {
-            $("#ddlCitydrop").empty();
-            var id = $(this).val();
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:53433/Home/CityList/' + id,
-                dataType: 'json',
-                //  data: { countryid: $("#ContryId").val() },
-                success: function (data) {
-                    console.log(data);
-                    $.each(data, function (index, item) {
-                        $('#ddlCitydrop').append($('<option/>', { value: item.City_Id, text: item.City_Name }))
+                    $("#ddlSatedrop").change(function () {
+                        $("#ddlCitydrop").empty();
+                        var id = $(this).val();
+                        $.ajax({
+                            type: 'GET',
+                            url: 'http://localhost:53433/Home/CityList/' + id,
+                            dataType: 'json',
+                            //  data: { countryid: $("#ContryId").val() },
+                            success: function (data) {
+                                console.log(data);
+                                $.each(data, function (index, item) {
+                                    $('#ddlCitydrop').append($('<option/>', { value: item.City_Id, text: item.City_Name }))
+                                })
+                            }, error: function (xhr) {
+                                alert('failur....' + xhr);
+                            }
+                        });
+                        return false;
                     })
-                }, error: function (xhr) {
-                    alert('failur....' + xhr);
-                }
-            });
-            return false;
-        })
-    });
-    
-</script>
+                });
+
+            </script>
