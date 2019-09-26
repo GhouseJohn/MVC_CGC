@@ -1,0 +1,13 @@
+﻿@model MVC_CGC.Models.FeedbackForm1
+
+    <b>This IS Feed Back</b>
+
+
+@using (Html.BeginForm("SaveData", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+@Html.TextBoxFor(model => model.fs.Name)<br />
+@Html.TextBoxFor(model => model.fs.Email)<br />
+@Html.TextBoxFor(model => model.ProjectInformation,  new { type = "file", @class = "input-file" })
+
+<input type="submit" value="Save" />
+}
